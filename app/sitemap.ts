@@ -1,14 +1,15 @@
 import type { MetadataRoute } from "next"
 import { ALL_TOOLS } from "@/lib/tools-registry"
+import { SITE_CONFIG } from "@/lib/seo"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://utilbee.bhathiya.dev"
+  const baseUrl = SITE_CONFIG.url
 
-  const toolRoutes = ALL_TOOLS.map((tool) => ({
+  const toolRoutes: MetadataRoute.Sitemap = ALL_TOOLS.map((tool) => ({
     url: `${baseUrl}${tool.href}`,
     lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: 0.8,
+    changeFrequency: "weekly",
+    priority: tool.isPopular ? 0.9 : 0.8,
   }))
 
   return [
